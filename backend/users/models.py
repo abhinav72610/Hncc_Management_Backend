@@ -44,6 +44,9 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
         'about'), max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    # avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    github_id = models.URLField(max_length=200, blank=True)
+    year = models.IntegerField(default=2019)
 
     objects = CustomAccountManager()
 
