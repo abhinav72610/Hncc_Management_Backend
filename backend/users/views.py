@@ -1,12 +1,12 @@
 from django.db.models.query import QuerySet
-from .models import NewUser
+from .models import NewUser, Profile
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import CustomUserSerializer
+from .serializers import CustomUserSerializer, ProfileSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics
 
 
@@ -46,4 +46,16 @@ class Users_year(generics.ListAPIView):
         year = self.request.query_params.get('year')
         if year is not None:
             querySet = querySet.filter(year=year)
+        return querySet
+
+
+class User_profile(generics.ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ProfileSerializer
+
+    def get_queryset(self):
+        querySet = Profile.objects.all()
+        user = self.request.user
+        if user is not None:
+            querySet = querySet.filter(user=user)
         return querySet

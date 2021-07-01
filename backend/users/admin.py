@@ -1,5 +1,5 @@
 from django.contrib import admin
-from users.models import NewUser
+from users.models import NewUser, Profile
 from django.contrib.auth.admin import UserAdmin
 from django.forms import TextInput, Textarea, CharField
 from django import forms
@@ -12,7 +12,7 @@ class UserAdminConfig(UserAdmin):
     list_filter = ('email', 'user_name', 'first_name', 'is_active', 'is_staff')
     ordering = ('-start_date',)
     list_display = ('email', 'user_name', 'first_name',
-                    'is_active', 'is_staff', 'github_id', 'year')
+                    'is_active', 'is_staff')
     fieldsets = (
         (None, {'fields': ('email', 'user_name', 'first_name',)}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
@@ -24,9 +24,11 @@ class UserAdminConfig(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'user_name', 'first_name', 'password1', 'password2', 'is_active', 'is_staff', 'github_id', 'year')}
+            'fields': ('email', 'user_name', 'first_name', 'password1', 'password2', 'is_active', 'is_staff')}
          ),
     )
 
 
 admin.site.register(NewUser, UserAdminConfig)
+
+admin.site.register(Profile)

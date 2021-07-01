@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class CustomAccountManager(BaseUserManager):
@@ -39,14 +41,13 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
     user_name = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(max_length=150, blank=True)
+    year = models.IntegerField(default=2019)
     start_date = models.DateTimeField(default=timezone.now)
     about = models.TextField(_(
         'about'), max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     # avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
-    github_id = models.URLField(max_length=200, blank=True)
-    year = models.IntegerField(default=2019)
 
     objects = CustomAccountManager()
 
@@ -55,3 +56,24 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.user_name
+
+
+class Profile(models.Model):
+
+    user = models.OneToOneField(NewUser, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500, blank=True)
+    github_id = models.URLField(max_length=200, blank=True)
+
+    codechef_id = models.URLField(max_length=200, blank=True)
+    expertise = models.CharField(max_length=200, blank=True)
+
+
+@receiver(post_save, sender=NewUser)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=NewUser)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
