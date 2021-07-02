@@ -59,3 +59,11 @@ class User_profile(generics.ListAPIView):
         if user is not None:
             querySet = querySet.filter(user=user)
         return querySet
+
+
+class Other_user_profiles(generics.ListAPIView):
+    serializer_class = ProfileSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['pk']
+        return Profile.objects.filter(id=id)
