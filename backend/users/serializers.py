@@ -3,16 +3,14 @@ from users.models import NewUser, Profile
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    """
-    Currently unused in preference of the below.
-    """
+
     email = serializers.EmailField(required=True)
     user_name = serializers.CharField(required=True)
     password = serializers.CharField(min_length=8, write_only=True)
 
     class Meta:
         model = NewUser
-        fields = ('email', 'user_name', 'password', 'year')
+        fields = ('id', 'email', 'user_name', 'password', 'year')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -30,5 +28,5 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['id', 'user', 'bio', 'github_id',
-                  'codechef_id', 'expertise']
+        fields = ['id', 'user', 'bio', 'github_username',
+                  'codechef_username', 'expertise']

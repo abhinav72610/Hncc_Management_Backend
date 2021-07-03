@@ -62,9 +62,9 @@ class Profile(models.Model):
 
     user = models.OneToOneField(NewUser, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
-    github_id = models.URLField(max_length=200, blank=True)
+    github_username = models.CharField(max_length=200, blank=True)
 
-    codechef_id = models.URLField(max_length=200, blank=True)
+    codechef_username = models.CharField(max_length=200, blank=True)
     expertise = models.CharField(max_length=200, blank=True)
 
 
