@@ -1,5 +1,14 @@
 # API FOR HNCC_MANAGEMENT WEB/APP
 
+## Steps to run it locally
+
+- clone it
+- make a virtual env
+- install the dependencies in the virtual env(pip install -r requirements.txt)
+- cd backend
+- run it using python manage.py runserver
+
+
 Available values for `endpoint`
 
 - Registartion.
