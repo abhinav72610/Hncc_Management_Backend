@@ -36,4 +36,5 @@ urlpatterns = [
         description="API for the Backend",
         version="1.0.0"
     ), name='openapi-schema'),
+    path('api/meets/', include('meets.urls')),
 ]
