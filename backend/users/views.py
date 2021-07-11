@@ -8,6 +8,7 @@ from .serializers import CustomUserSerializer, ProfileSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import generics
+from rest_framework import permissions
 
 
 class CustomUserCreate(APIView):
@@ -50,19 +51,33 @@ class Users_year(generics.ListAPIView):
 
 
 class User_profile(generics.ListAPIView):
+
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileSerializer
 
     def get_queryset(self):
         querySet = Profile.objects.all()
-        user = self.request.user
+        user = self.request.user.id
+        print(user)
         if user is not None:
             querySet = querySet.filter(user=user)
         return querySet
 
 
-class Other_user_profiles(generics.ListAPIView):
+class IsOwnerOrReadOnly(permissions.BasePermission):
+    """
+    Custom permission to only allow owners of an object to edit it.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return obj.user == request.user
+
+
+class Other_user_profiles(generics.RetrieveUpdateAPIView):
     serializer_class = ProfileSerializer
+    permission_classes = [IsOwnerOrReadOnly]
 
     def get_queryset(self):
         id = self.kwargs['pk']
