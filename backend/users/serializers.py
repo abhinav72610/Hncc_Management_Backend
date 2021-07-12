@@ -2,6 +2,9 @@ from rest_framework import serializers
 from users.models import NewUser, Profile
 
 
+# from drf_writable_nested import WritableNestedModelSerializer
+
+
 class CustomUserSerializer(serializers.ModelSerializer):
 
     email = serializers.EmailField(required=True)
@@ -24,7 +27,11 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer()
+    # def __init__(self, *args, **kwargs):
+    #     kwargs['partial'] = True
+    #     super(ProfileSerializer, self).__init__(*args, **kwargs)
+
+    user = CustomUserSerializer(read_only=True)
 
     class Meta:
         model = Profile

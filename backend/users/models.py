@@ -59,13 +59,21 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Profile(models.Model):
+    options = (
+        ('web', 'WEB'),
+        ('mobile', 'MOBILE'),
+        ('design', 'DESIGN'),
+        ('game', 'GAME'),
+
+    )
 
     user = models.OneToOneField(NewUser, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
     github_username = models.CharField(max_length=200, blank=True)
 
     codechef_username = models.CharField(max_length=200, blank=True)
-    expertise = models.CharField(max_length=200, blank=True)
+    expertise = models.CharField(
+        max_length=10, choices=options, default='web')
 
 
 @receiver(post_save, sender=NewUser)
