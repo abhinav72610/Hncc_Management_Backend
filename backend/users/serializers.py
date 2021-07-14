@@ -37,3 +37,11 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ['id', 'user', 'bio', 'github_username',
                   'codechef_username', 'expertise']
+
+
+class EmailVerificationSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(max_length=555)
+
+    class Meta:
+        model = NewUser
+        fields = ['token']
