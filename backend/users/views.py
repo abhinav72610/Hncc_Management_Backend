@@ -29,11 +29,13 @@ class CustomUserCreate(APIView):
                 user_data = serializer.data
                 user_instance = NewUser.objects.get(email=user_data['email'])
                 token = RefreshToken.for_user(user_instance).access_token
-                current_site = get_current_site(request).domain
-                relativeLink = reverse('email-verify')
-                # relativeLink = 'verify'
-                absurl = 'http://'+current_site + \
-                    relativeLink+"?token="+str(token)
+                # current_site = get_current_site(request).domain
+                # relativeLink = reverse('email-verify')
+                # relativeLink = 'email-verify'
+                # absurl = 'http://'+current_site + \
+                #     relativeLink+"?token="+str(token)
+                absurl = 'http://127.0.0.1:8000/api/user/email-verify' + \
+                    "?token="+str(token)
                 email_body = 'Hi '+user_instance.user_name + \
                     ' Use the link below to verify your email \n' + absurl
                 data = {'email_body': email_body, 'to_email': user_instance.email,
