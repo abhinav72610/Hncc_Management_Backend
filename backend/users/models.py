@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class CustomAccountManager(BaseUserManager):
@@ -46,6 +47,7 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     about = models.TextField(_(
         'about'), max_length=500, blank=True)
     is_staff = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     # avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
 
@@ -56,6 +58,13 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.user_name
+
+    def tokens(self):
+        refresh = RefreshToken.for_user(self)
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token)
+        }
 
 
 class Profile(models.Model):

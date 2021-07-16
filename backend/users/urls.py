@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import CustomUserCreate, BlacklistTokenUpdateView, Users_year, User_profile, Other_user_profiles, VerifyEmail, RequestPasswordResetEmail, SetNewPasswordAPIView, PasswordTokenCheckAPI
+from .views import CustomUserCreate, BlacklistTokenUpdateView, Users_year, User_profile, Other_user_profiles, VerifyEmail, RequestPasswordResetEmail, SetNewPasswordAPIView, PasswordTokenCheckAPI, LoginAPIView
 
 app_name = 'users'
 
 urlpatterns = [
     path('create/', CustomUserCreate.as_view(), name="create_user"),
+    path('login/', LoginAPIView.as_view(), name="login"),
     path('email-verify/', VerifyEmail.as_view(), name="email-verify"),
     path('request-reset-email/', RequestPasswordResetEmail.as_view(),
          name="request-reset-email"),
