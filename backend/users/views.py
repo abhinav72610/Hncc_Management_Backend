@@ -54,6 +54,7 @@ class CustomUserCreate(APIView):
 
 
 class VerifyEmail(views.APIView):
+    permission_classes = [AllowAny]
     serializer_class = EmailVerificationSerializer
 
     def get(self, request):
@@ -72,6 +73,7 @@ class VerifyEmail(views.APIView):
 
 
 class RequestPasswordResetEmail(generics.GenericAPIView):
+    permission_classes = [AllowAny]
     serializer_class = ResetPasswordEmailRequestSerializer
 
     def post(self, request):
@@ -101,6 +103,8 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 
 
 class PasswordTokenCheckAPI(generics.GenericAPIView):
+    permission_classes = [AllowAny]
+
     def get(self, request, uidb64, token):
 
         try:
@@ -118,6 +122,7 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
 
 
 class SetNewPasswordAPIView(generics.GenericAPIView):
+    permission_classes = [AllowAny]
     serializer_class = SetNewPasswordSerializer
 
     def patch(self, request):
@@ -128,6 +133,7 @@ class SetNewPasswordAPIView(generics.GenericAPIView):
 
 class LoginAPIView(generics.GenericAPIView):
     serializer_class = LoginSerializer
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)

@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -49,6 +50,7 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+
     # avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
 
     objects = CustomAccountManager()
