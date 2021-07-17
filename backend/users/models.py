@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework_simplejwt.tokens import RefreshToken
+from tasks.models import Tasks
 
 
 class CustomAccountManager(BaseUserManager):

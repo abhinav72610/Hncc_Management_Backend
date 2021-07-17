@@ -38,6 +38,6 @@ urlpatterns = [
     ), name='openapi-schema'),
     path('api/meets/', include('meets.urls')),
     path('api/events/', include('events.urls')),
-    path('api/events/', include('tasks.urls')),
+    path('api/tasks/', include('tasks.urls')),
 
 ]

@@ -12,3 +12,4 @@ class Tasks(models.Model):
 
     content = models.CharField(max_length=300)
     start_date = models.DateTimeField()
+    completed = models.BooleanField(default=False)
