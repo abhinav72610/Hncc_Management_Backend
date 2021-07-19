@@ -21,19 +21,28 @@ class IsAdminOrReadOnly(permissions.BasePermission):
         return request.user.is_staff
 
 
-class TasksView(generics.ListCreateAPIView):
-    permission_classes = [IsAdminOrReadOnly]
-    queryset = Tasks.objects.all()
+# class TasksView(generics.ListCreateAPIView):
+#     permission_classes = [IsAdminOrReadOnly]
+#     queryset = Tasks.objects.all()
+#     serializer_class = Taskserializer
+
+
+class get_user_tasks(generics.ListAPIView):
     serializer_class = Taskserializer
+    permission_classes = [IsAdminOrReadOnly]
+
+    def get_queryset(self):
+        queryset = Tasks.objects.all()
+        user_id = self.request.query_params.get('user_id')
+        if user_id is not None:
+            queryset = queryset.filter(asigned_to=user_id)
+        return queryset
 
 
-class get_user_tasks(generics.RetrieveUpdateAPIView):
+class get_tasks(generics.RetrieveUpdateAPIView):
     serializer_class = Taskserializer
     permission_classes = [IsAdminOrReadOnly]
 
     def get_queryset(self):
         id = self.kwargs['pk']
-        # user = NewUser.objects.filter(id=id)
-        # username = user.user_name
-
-        return Tasks.objects.filter(asigned_to=id)
+        return Tasks.objects.filter(id=id)
