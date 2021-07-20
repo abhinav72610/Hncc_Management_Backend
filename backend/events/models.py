@@ -22,6 +22,7 @@ class Events(models.Model):
         ('mobile', 'MOBILE'),
         ('design', 'DESIGN'),
         ('game', 'GAME'),
+        ('marketing', 'MARKETING'),
 
     )
     title = models.CharField(max_length=100)

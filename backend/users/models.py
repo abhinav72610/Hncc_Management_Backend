@@ -7,6 +7,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework_simplejwt.tokens import RefreshToken
 from tasks.models import Tasks
+from multiselectfield import MultiSelectField
 
 
 class CustomAccountManager(BaseUserManager):
@@ -76,6 +77,7 @@ class Profile(models.Model):
         ('mobile', 'MOBILE'),
         ('design', 'DESIGN'),
         ('game', 'GAME'),
+        ('marketing', 'MARKETING')
 
     )
 
@@ -84,8 +86,8 @@ class Profile(models.Model):
     github_username = models.CharField(max_length=200, blank=True)
 
     codechef_username = models.CharField(max_length=200, blank=True)
-    expertise = models.CharField(
-        max_length=10, choices=options, default='web')
+    expertise = MultiSelectField(
+        choices=options, default='web')
 
 
 @receiver(post_save, sender=NewUser)
