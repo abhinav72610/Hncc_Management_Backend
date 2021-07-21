@@ -48,8 +48,7 @@ INSTALLED_APPS = [
     'meets',
     'corsheaders',
     'events',
-    'tasks',
-    'multiselectfield',
+    'tasks'
 ]
 
 MIDDLEWARE = [

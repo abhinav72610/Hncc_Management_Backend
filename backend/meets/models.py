@@ -9,7 +9,6 @@ from django.core.mail import EmailMessage
 from users.models import NewUser
 from django.core.mail import send_mail
 from users.models import NewUser, Profile
-from multiselectfield import MultiSelectField
 
 # def all_emails():
 #     recievers = []
@@ -24,32 +23,31 @@ class Meet(models.Model):
         ('mobile', 'MOBILE'),
         ('design', 'DESIGN'),
         ('game', 'GAME'),
-        ('marketing', 'MARKETING'),
         ('all', 'ALL'),
 
     )
     agenda = models.CharField(max_length=100,)
     start_time = models.DateTimeField(
-        blank=True)
+        default="2021-07-10T00:21:37.152288Z")
     link = models.URLField()
     intiated_by = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='User')
-    team = MultiSelectField(choices=options, default='design')
+    team = models.CharField(
+        max_length=10, choices=options, default='design')
 
     def save(self, *args, **kwargs):
 
         super(Meet, self).save()
 
 
-def all_emails(teams):
+def all_emails(team):
     recievers = []
-    if teams[0] == 'all':
+    if team == 'all':
         all_user = Profile.objects.all()
         for User in all_user:
             receiver.append(User.user.email)
-    for team in teams:
-        for User in Profile.objects.filter(expertise=team):
-            recievers.append(User.user.email)
+    for User in Profile.objects.filter(expertise=team):
+        recievers.append(User.user.email)
     return recievers
 
 
