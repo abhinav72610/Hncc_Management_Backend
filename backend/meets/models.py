@@ -72,6 +72,10 @@ class MeetSerializer(serializers.ModelSerializer):
         return instance
 
 
+class Meet_2_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Meet
+        fields = ('agenda', 'link', 'intiated_by', 'start_time', 'team')
 # def send_email():
 
 #     x = str(MeetSerializer.data["agenda"])
