@@ -27,7 +27,7 @@ class IsAdminOrReadOnly(permissions.BasePermission):
 #     serializer_class = Taskserializer
 
 
-class get_user_tasks(generics.ListAPIView):
+class get_user_tasks(generics.ListCreateAPIView):
     serializer_class = Taskserializer
     permission_classes = [IsAdminOrReadOnly]
 
